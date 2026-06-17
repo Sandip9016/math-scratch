@@ -7,8 +7,6 @@ require("dotenv").config();
 
 // routes
 const authRoutes = require("./routes/auth");
-const questionRoutes = require("./routes/question");
-const matchRoutes = require("./routes/match");
 const practiceMatchRoutes = require("./routes/practicematch");
 const friendRoutes = require("./routes/friend");
 const adminRoutes = require("./routes/admin");
@@ -36,14 +34,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/api/auth", authRoutes);
-app.use("/api/question", questionRoutes);
 app.use("/api/practice", practiceMatchRoutes);
 app.use("/api/friend", friendRoutes);
-app.use("/api/match", matchRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", notificationRoutes);
-
-require("./controller/pvpController")(io);
 
 // test route
 app.get("/", (req, res) => {
@@ -69,6 +63,3 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-// the original mongo uri is :
-// MONGO_URI= mongodb+srv://developerclumpcoder_db_user:2Rkj8J0XuhrNKGOJ@maths.ayc5ult.mongodb.net/math?retryWrites=true&w=majority&appName=maths

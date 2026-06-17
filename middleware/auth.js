@@ -30,7 +30,6 @@ module.exports = async (req, res, next) => {
     // BLOCKED CHECK
     const status = player.accountStatus?.state;
 
-
     if (status === "blocked") {
       return res.status(403).json({
         success: false,

@@ -24,7 +24,6 @@ exports.endPracticeSession = async (req, res) => {
 
   const total = correctCount + incorrectCount + skippedCount;
 
-
   if (!playerId || !["easy", "medium", "hard"].includes(difficulty)) {
     return res.status(400).json({ message: "Missing or invalid fields" });
   }
@@ -54,6 +53,32 @@ exports.endPracticeSession = async (req, res) => {
     const newRating = currentRating + points;
 
     player.pr.practice[difficulty] = newRating;
+
+    // === Update stats for practice sessions ===
+    if (!player.stats) player.stats = { practice: {} };
+    if (!player.stats.practice[difficulty]) {
+      player.stats.practice[difficulty] = {
+        gamesPlayed: 0,
+        highScore: 0,
+        totalScore: 0,
+        averageScore: 0,
+      };
+    }
+
+    const stats = player.stats.practice[difficulty];
+
+    // Increment games played
+    stats.gamesPlayed += 1;
+
+    // Update total score
+    stats.totalScore += points;
+
+    // Update high score if this session is higher
+    stats.highScore = Math.max(stats.highScore, points);
+
+    // Update average score
+    stats.averageScore = stats.totalScore / stats.gamesPlayed;
+
     await player.save();
 
     return res.json({

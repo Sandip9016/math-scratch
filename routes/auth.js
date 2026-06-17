@@ -5,7 +5,6 @@ const auth = require("../middleware/auth");
 const profileController = require("../controller/profileController");
 const { uploadToMemory, handleMulterError } = require("../config/multerConfig");
 const { uploadToS3 } = require("../config/multerConfig");
-const translate = require("../controller/translationController");
 
 //login
 router.post("/login", authController.login);
@@ -20,9 +19,6 @@ router.post("/sendForgotPassOtp", authController.sendForgotPasswordOtp);
 router.post("/verfy-forget-otp", authController.verifyForgotPasswordOtp);
 router.post("/changePass", authController.changePassword);
 router.post("/resend-forget-otp", authController.resendForgotPasswordOtp);
-
-//app language translation
-router.post("/translate", translate.translate);
 
 //
 router.delete("/admin/delete-user/:userId", authController.deleteUserByAdmin);
